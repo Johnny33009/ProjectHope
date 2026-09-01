@@ -37,6 +37,13 @@ public class ConfettiEffect : MonoBehaviour
             return;
         }
 
+        // Guarantee confetti renders ABOVE the puzzle pieces, regardless of
+        // Hierarchy order - pieces can bring their own parent to front when
+        // picked up (see JigsawPiece), so confetti needs the same guarantee
+        // rather than relying on where it happens to sit in the Hierarchy.
+        Transform confettiContainer = pieceParent != null ? pieceParent : spawnArea;
+        confettiContainer.SetAsLastSibling();
+
         for (int i = 0; i < pieceCount; i++)
         {
             SpawnPiece();

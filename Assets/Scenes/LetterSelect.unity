@@ -145,7 +145,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28203801}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -181,9 +181,9 @@ MonoBehaviour:
   spawnArea: {fileID: 28203802}
   pieceParent: {fileID: 28203802}
   pieceCount: 24
-  fallDuration: 1.6
-  fallDistance: 500
-  pieceSize: {x: 24, y: 24}
+  fallDuration: 2.6
+  fallDistance: 1500
+  pieceSize: {x: 60, y: 60}
 --- !u!114 &28203804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,6 +1674,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1032121484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1032121485}
+  m_Layer: 0
+  m_Name: PieceParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1032121485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032121484}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 830.6896, y: -200.48782, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1963127873}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1089814337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,9 +2672,9 @@ MonoBehaviour:
   boardArea: {fileID: 151658029}
   trayScrollRect: {fileID: 1597994512}
   trayContent: {fileID: 468161525}
-  piecePrefab: {fileID: 0}
+  piecePrefab: {fileID: 1213995269557544011, guid: a1c902d8eb670ad4cac6edf1bb4d471c, type: 3}
   pieceMaskTexture: {fileID: 0}
-  pieceParent: {fileID: 2741429987472937119, guid: 2e19e18445d0b0f46a6f1ef341eac9b1, type: 3}
+  pieceParent: {fileID: 1032121485}
   traySlotPadding: 1.15
   traySmallScale: 0.7
   snapThreshold: 40
@@ -2703,6 +2734,7 @@ RectTransform:
   - {fileID: 151658029}
   - {fileID: 1487470526}
   - {fileID: 536446822}
+  - {fileID: 1032121485}
   - {fileID: 28203802}
   - {fileID: 1712005452}
   m_Father: {fileID: 0}
