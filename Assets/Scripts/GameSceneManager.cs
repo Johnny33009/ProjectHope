@@ -142,12 +142,19 @@ public class GameSceneManager : MonoBehaviour
         LanguageManager.Language currentLanguage = LanguageManager.Instance.CurrentLanguage;
         List<LetterData> activeLetters = letterDatabase.GetLettersForLanguage(currentLanguage);
 
-        int index = GameManager.Instance.CurrentLetterIndex;
-        if (index < 0 || index >= activeLetters.Count)
+        if (activeLetters.Count == 0)
         {
-            Debug.LogWarning($"GameSceneManager: CurrentLetterIndex {index} out of range for {currentLanguage} ({activeLetters.Count} letters).");
+            Debug.LogError($"GameSceneManager: no letters available for {currentLanguage}.");
             return;
         }
+
+        // The saved progress index doesn't know which language's letter
+        // list it was earned in - Spanish has one more letter than English
+        // (Ñ), so a position valid in one language can be out of range in
+        // the other after switching. Clamp rather than error/blank out:
+        // worst case, switching languages lands you on that language's
+        // last letter instead of exactly where you left off.
+        int index = Mathf.Clamp(GameManager.Instance.CurrentLetterIndex, 0, activeLetters.Count - 1);
 
         LetterData data = activeLetters[index];
 
