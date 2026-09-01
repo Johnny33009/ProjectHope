@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15593ca3a883c9944bba0cfebeba57b6, type: 3}
   m_Name: L
   m_EditorClassIdentifier: Assembly-CSharp::LetterData
-  letter: 0
+  letter: 76
   spanishOnly: 0
-  word: 
-  illustration: {fileID: 0}
-  wordSpanish: 
+  word: L
+  illustration: {fileID: -2606640320761059190, guid: 6e1ccd90f152d2e43a2559a97ab58d1e, type: 3}
+  wordSpanish: L
   illustrationSpanish: {fileID: 0}
   audioClipEnglish: {fileID: 0}
   audioClipSpanish: {fileID: 0}

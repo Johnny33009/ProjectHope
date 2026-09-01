@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\xF1"
   m_EditorClassIdentifier: Assembly-CSharp::LetterData
   letter: 241
-  spanishOnly: 0
+  spanishOnly: 1
   word: 
   illustration: {fileID: 0}
   wordSpanish: 
