@@ -32,17 +32,20 @@ using UnityEngine.UI;
 ///                      are more pieces than fit on screen at once
 ///   piecePrefab     -> a UI prefab with an Image component (a JigsawPiece
 ///                      component gets added automatically if missing)
-///   pieceMaskTexture -> the puzzle-piece silhouette shape (a texture with
-///                      alpha: opaque where the piece shape is, transparent
-///                      outside it). Each piece's photo gets cut to this
-///                      shape at runtime, so pieces look jigsaw-shaped
-///                      instead of plain rectangles. Requires BOTH this
-///                      texture AND every letter illustration texture to
-///                      have "Read/Write Enabled" checked in their Import
-///                      Settings (Advanced section) - without that, pixel
-///                      reading fails and you'll get an error instead of
-///                      a puzzle piece. Leave unassigned for plain
-///                      rectangular pieces.
+///   pieceMaskTexture -> OPTIONAL puzzle-piece silhouette shape (a texture
+///                      with alpha: opaque where the piece shape is,
+///                      transparent outside it) - cuts pieces to that
+///                      shape instead of plain rectangles. Leave unassigned
+///                      for plain rectangular pieces.
+///
+///   IMPORTANT: every letter illustration texture needs "Read/Write
+///   Enabled" checked in its Import Settings (Advanced section),
+///   regardless of whether pieceMaskTexture is used. Every piece is
+///   always built as its own independent texture (copied pixel data,
+///   Point-filtered) rather than a sub-rect reference into the shared
+///   illustration - this avoids a seam/bleed artifact at piece edges
+///   that can appear under Bilinear filtering on some platforms/GPUs,
+///   even with correct positioning and Image settings.
 ///   pieceParent     -> Transform pieces move to once picked up (detaching
 ///                      them from the scrollable tray) AND the coordinate
 ///                      frame home positions are calculated in - must share
@@ -206,13 +209,22 @@ public class JigsawPuzzleController : MonoBehaviour
     /// Requires sourceTexture and pieceMaskTexture to both have
     /// "Read/Write Enabled" checked in their Import Settings.
     /// </summary>
+    /// <summary>
+    /// Builds a completely independent texture/sprite for this piece by
+    /// copying its exact pixel region out of the source photo - never a
+    /// sub-rect reference into the shared texture. This matters because
+    /// sub-rect sprites (Sprite.Create pointing at a region of a larger
+    /// shared texture) can bleed a sliver of neighboring pixels at their
+    /// edges under Bilinear filtering, especially when scaled up - showing
+    /// as a seam/gap between adjacent pieces. Copying pixels into their
+    /// own texture gives every piece hard, independent edges regardless
+    /// of platform/GPU filtering behavior.
+    ///
+    /// If pieceMaskTexture is assigned, also cuts the piece to that
+    /// silhouette shape; otherwise produces a plain rectangular piece.
+    /// </summary>
     private Sprite BuildMaskedPieceSprite(Texture2D sourceTexture, Rect pieceTextureRect, float pixelsPerUnit)
     {
-        if (pieceMaskTexture == null)
-        {
-            return Sprite.Create(sourceTexture, pieceTextureRect, new Vector2(0.5f, 0.5f), pixelsPerUnit);
-        }
-
         int width = Mathf.RoundToInt(pieceTextureRect.width);
         int height = Mathf.RoundToInt(pieceTextureRect.height);
         int startX = Mathf.RoundToInt(pieceTextureRect.x);
@@ -229,10 +241,12 @@ public class JigsawPuzzleController : MonoBehaviour
             {
                 float u = (x + 0.5f) / width;
 
-                Color maskColor = pieceMaskTexture.GetPixelBilinear(u, v);
                 Color photo = photoPixels[y * width + x];
+                float maskAlpha = pieceMaskTexture != null
+                    ? pieceMaskTexture.GetPixelBilinear(u, v).a
+                    : 1f;
 
-                byte combinedAlpha = (byte)(photo.a * maskColor.a * 255f);
+                byte combinedAlpha = (byte)(photo.a * maskAlpha * 255f);
                 outputPixels[y * width + x] = new Color32(
                     (byte)(photo.r * 255f),
                     (byte)(photo.g * 255f),
@@ -242,6 +256,7 @@ public class JigsawPuzzleController : MonoBehaviour
         }
 
         Texture2D pieceTexture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        pieceTexture.filterMode = FilterMode.Point; // hard edges, no bleed into neighboring pieces
         pieceTexture.SetPixels32(outputPixels);
         pieceTexture.Apply();
 

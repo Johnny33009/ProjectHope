@@ -129,6 +129,10 @@ public class JigsawPiece : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         IsDragging = false;
 
         float distance = Vector2.Distance(rectTransform.anchoredPosition, HomeAnchoredPosition);
+
+        // TEMP DEBUG - remove once snapping is confirmed working.
+        Debug.Log($"{gameObject.name}: dropped at {rectTransform.anchoredPosition}, home is {HomeAnchoredPosition}, distance = {distance}, threshold = {snapThreshold}");
+
         if (distance <= snapThreshold)
         {
             rectTransform.anchoredPosition = HomeAnchoredPosition;
