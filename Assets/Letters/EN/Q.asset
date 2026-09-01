@@ -17,7 +17,7 @@ MonoBehaviour:
   word: Q
   illustration: {fileID: -7583153931363524453, guid: 0b77eff2a42d7c84b97671534e2d7d1a, type: 3}
   wordSpanish: Q
-  illustrationSpanish: {fileID: 0}
+  illustrationSpanish: {fileID: 4359327472603921858, guid: d196a243a38597440bbb81ab609877c0, type: 3}
   audioClipEnglish: {fileID: 0}
   audioClipSpanish: {fileID: 0}
   jigsawPieceCount: 4

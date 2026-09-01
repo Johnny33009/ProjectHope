@@ -180,10 +180,10 @@ MonoBehaviour:
   - {fileID: 1618545819240256968, guid: d6205ba51c9d21844aa78797ee6e3fea, type: 3}
   spawnArea: {fileID: 28203802}
   pieceParent: {fileID: 28203802}
-  pieceCount: 24
+  pieceCount: 36
   fallDuration: 2.6
   fallDistance: 1500
-  pieceSize: {x: 60, y: 60}
+  pieceSize: {x: 125, y: 125}
 --- !u!114 &28203804
 MonoBehaviour:
   m_ObjectHideFlags: 0
